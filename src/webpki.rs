@@ -60,7 +60,7 @@ pub mod trust_anchor_util;
 mod verify_cert;
 
 pub use error::Error;
-pub use name::{DNSNameRef, InvalidDNSNameError};
+pub use name::{GeneralDNSNameRef, DNSNameRef, WildcardDNSNameRef, InvalidDNSNameError};
 
 #[cfg(feature = "std")]
 pub use name::DNSName;
@@ -251,7 +251,7 @@ impl<'a> EndEntityCert<'a> {
     /// Requires the `std` default feature; i.e. this isn't available in
     /// `#![no_std]` configurations.
     #[cfg(feature = "std")]
-    pub fn dns_names(&self) -> Result<Vec<DNSNameRef<'a>>, Error> {
+    pub fn dns_names(&self) -> Result<Vec<GeneralDNSNameRef<'a>>, Error> {
         name::list_cert_dns_names(&self)
     }
 }

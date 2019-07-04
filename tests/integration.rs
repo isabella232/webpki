@@ -161,7 +161,7 @@ pub fn wildcard_subject_alternative_names()
 
     expect_cert_dns_names(data, &[
         "account.netflix.com",
-        // NOT "c*.netflix.com",
+        "*.netflix.com",
         "netflix.ca",
         "netflix.com",
         "signup.netflix.com",
@@ -180,8 +180,7 @@ fn expect_cert_dns_names(data: &[u8], expected_names: &[&str])
 {
     use std::iter::FromIterator;
 
-    let input = untrusted::Input::from(data);
-    let cert = webpki::EndEntityCert::from(input)
+    let cert = webpki::EndEntityCert::from(data)
       .expect("should parse end entity certificate correctly");
 
     let expected_names =
@@ -207,8 +206,7 @@ pub fn no_subject_alt_names()
 {
     let data = include_bytes!("misc/no_subject_alternative_name.der");
 
-    let input = untrusted::Input::from(data);
-    let cert = webpki::EndEntityCert::from(input)
+    let cert = webpki::EndEntityCert::from(data)
       .expect("should parse end entity certificate correctly");
 
     let names = cert.dns_names().expect("we should get a result even without subjectAltNames");
